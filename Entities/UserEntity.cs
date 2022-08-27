@@ -1,4 +1,4 @@
-﻿namespace medium_refresh_token_api.DataAccess.Entities
+﻿namespace medium_refresh_token_api.Entities
 {
     public class UserEntity
     {
@@ -6,6 +6,5 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-        public DateTime DateOfBirth { get; set; }
     }
 }

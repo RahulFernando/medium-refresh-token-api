@@ -1,13 +1,13 @@
-﻿using medium_refresh_token_api.DataAccess.Entities;
+﻿using medium_refresh_token_api.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace medium_refresh_token_api.BusinessLogic.Authorization
+namespace medium_refresh_token_api.Utils
 {
-    public class JwtUtils : IJwtUtils
+    public class JwtUtils
     {
         private readonly IConfiguration _configuration;
 
@@ -18,7 +18,7 @@ namespace medium_refresh_token_api.BusinessLogic.Authorization
 
         public string GenerateAccessToken(UserEntity entity, AccountEntity account)
         {
-            var secret = _configuration["Jwt:Ky"];
+            var secret = _configuration["Jwt:Key"];
             var issuer = _configuration["Jwt:Issuer"];
             var audience = _configuration["Jwt:Audience"];
 
@@ -29,8 +29,8 @@ namespace medium_refresh_token_api.BusinessLogic.Authorization
             // add claims (payload)
             var claims = new[]
             {
-                new Claim(type: "Id", entity.Id.ToString()),
-                new Claim(type: "Email", account.Email),
+                new Claim(type: "id", entity.Id.ToString()),
+                new Claim(type: "email", account.Email),
             };
 
             var token = new JwtSecurityToken(issuer, audience, claims, expires: DateTime.Now.AddMinutes(15), signingCredentials: credentials);
@@ -43,7 +43,7 @@ namespace medium_refresh_token_api.BusinessLogic.Authorization
             return BCrypt.Net.BCrypt.HashPassword(plainText);
         }
 
-        public string GenerateRefreshToken(UserEntity entity)
+        public string GenerateRefreshToken()
         {
             RandomNumberGenerator rng = new RNGCryptoServiceProvider();
             byte[] tokenData = new byte[64];

@@ -1,6 +1,3 @@
-using medium_refresh_token_api.DataAccess.Helpers;
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,12 +14,7 @@ builder.Services.AddCors(option =>
                        );
 });
 
-// database
-string connectionStr = builder.Configuration.GetConnectionString("Default");
-builder.Services.AddDbContext<DatabaseContext>(options =>
-{
-    options.UseMySql(connectionStr, ServerVersion.AutoDetect(connectionStr));
-});
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 var app = builder.Build();
 

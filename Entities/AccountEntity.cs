@@ -1,4 +1,4 @@
-﻿namespace medium_refresh_token_api.DataAccess.Entities
+﻿namespace medium_refresh_token_api.Entities
 {
     public class AccountEntity
     {
